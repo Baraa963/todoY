@@ -6,10 +6,10 @@ import CheckIcon from "@mui/icons-material/Check";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
-export default function Todo() {
+export default function Todo({ title, details }) {
   return (
     <Card
-    className="todo-card"
+      className="todo-card"
       sx={{
         minWidth: 275,
         background: "#283593",
@@ -18,10 +18,10 @@ export default function Todo() {
       }}
     >
       <CardContent>
-        <Grid container spacing={2} sx={{}}>
+        <Grid container spacing={2}>
           <Grid item xs={8}>
-            <Typography variant="h5">المهمة الأولى</Typography>
-            <Typography variant="h6">التفاصيل</Typography>
+            <Typography variant="h5">{title}</Typography>
+            <Typography variant="h6">{details}</Typography>
           </Grid>
           <Grid
             item
@@ -43,22 +43,22 @@ export default function Todo() {
             <IconButton
               className="iconButton"
               sx={{
-                color: "#b23c17",
-                background: "white",
-                border: "solid #b23c17 3px",
-              }}
-            >
-              <DeleteIcon />
-            </IconButton>
-            <IconButton
-              className="iconButton"
-              sx={{
                 color: "#1769aa",
                 background: "white",
                 border: "solid #1769aa 3px",
               }}
             >
               <ModeEditIcon />
+            </IconButton>
+            <IconButton
+              className="iconButton"
+              sx={{
+                color: "#b23c17",
+                background: "white",
+                border: "solid #b23c17 3px",
+              }}
+            >
+              <DeleteIcon />
             </IconButton>
           </Grid>
         </Grid>
