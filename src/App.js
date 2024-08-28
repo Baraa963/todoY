@@ -1,7 +1,9 @@
 import "./App.css";
-
+import { useState } from "react";
 import TodoList from "./Components/TodoList";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { TodosContext } from "./Contexts/TodosContext";
+
 
 const theme = createTheme({
   typography: {
@@ -9,12 +11,14 @@ const theme = createTheme({
   },
 });
 function App() {
+  const [todos, setTodos] = useState([]);
   return (
     <ThemeProvider theme={theme}>
-
-    <div className="App">
-      <TodoList />
-    </div>
+      <div className="App">
+        <TodosContext.Provider value={{todos,setTodos}}>
+          <TodoList />
+        </TodosContext.Provider>
+      </div>
     </ThemeProvider>
   );
 }
