@@ -19,8 +19,7 @@ export default function Todo({ todo }) {
   /**=========== Edit the title and subtitle of the todo. =========== */
 
   const [showEditPopup, setShowEditPopup] = useState(false);
-  const [editTitle, setEditTitle] = useState("");
-  const [editDetails, setEditDetails] = useState("");
+ 
 
   function CompletedClick() {
     const updatedTodos = todos.map((t) => {
@@ -99,7 +98,7 @@ export default function Todo({ todo }) {
               </IconButton>
             </Grid>
           </Grid>
-          {showEditPopup && <EditPopup todo={todo} />}
+          {showEditPopup && <EditPopup todo={todo} showEditPopup={showEditPopup} setShowEditPopup={setShowEditPopup} />}
         </CardContent>
       </Card>
     </>
