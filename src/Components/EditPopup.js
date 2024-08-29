@@ -24,7 +24,7 @@ export default function EditPopup({ todo }) {
       }
   return (
     <Grid container spacing={2} sx={{ width: "100%", marginTop: "1rem" }}>
-            <Grid item xs={8}>
+            <Grid item xs={9}>
               <TextField
                 id="outlined-basic"
                 label=" عنوان المهمة الجديد "
@@ -33,33 +33,33 @@ export default function EditPopup({ todo }) {
                   width: "100%",
                   "& .MuiOutlinedInput-root": {
                     "& fieldset": {
-                      borderColor: "white", // Default border color
+                      borderColor: "white", 
                     },
                     "&:hover fieldset": {
-                      borderColor: "white", // Border color when hovered
+                      borderColor: "white", 
                     },
                     "&.Mui-focused fieldset": {
-                      borderColor: "white", // Border color when focused
+                      borderColor: "white", 
                     },
                   },
                   "& .MuiInputLabel-root": {
-                    color: "white", // Label color
+                    color: "white", 
                   },
                   "& .MuiInputLabel-root.Mui-focused": {
-                    color: "white", // Label color when focused
+                    color: "white", 
                   },
                   "& .MuiOutlinedInput-input": {
-                    color: "white", // Input text color
+                    color: "white", 
                   },
                 }}
                 value={editTitle}
                 onChange={(e) => setEditTitle(e.target.value)}
               />
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={3}>
               <Button
                 variant="contained"
-                sx={{ width: "110%", height: "100%" }}
+                sx={{ width: "115%", height: "100%" ,fontSize:"0.78rem"}}
                 onClick={EditedClick}
                 style={{ backgroundColor: "#e7c15a" }}
               >

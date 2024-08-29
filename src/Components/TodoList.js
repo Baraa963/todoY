@@ -15,15 +15,16 @@ import { v4 as uuidv4 } from "uuid";
 
 export default function TodoList() {
   /**=========== todos Context Data =========== */
-
   const { todos, setTodos } = useContext(TodosContext);
 
-  /**=========== titleTodo & detailsTodo useStates =========== */
+  /**=========== State to Control Filter View =========== */
+  const [view, setView] = useState("all");
 
+  /**=========== titleTodo & detailsTodo useStates =========== */
   const [titleTodo, setTitleTodo] = useState("");
   const [detailsTodo, setDetailsTodo] = useState("");
 
-  /**=========== add a new todo =========== */
+  /**=========== Add a New Todo =========== */
   function handleAddTodo() {
     const newTodo = {
       id: uuidv4(),
@@ -33,16 +34,18 @@ export default function TodoList() {
     };
     setTodos([...todos, newTodo]);
     setTitleTodo("");
+    setDetailsTodo("");
   }
 
-  /**=========== mapping to show todos =========== */
-
-  const todosList = todos.map((t) => {
-    if (t.id !== "") {
-      return <Todo key={t.id} todo={t} />;
-    }
-    return null;
+  /**=========== Filter Todos Based on Selected View =========== */
+  const filteredTodos = todos.filter((t) => {
+    if (view === "done") return t.isCompleted;
+    if (view === "not_done") return !t.isCompleted;
+    return true; // Show all todos if "all" is selected
   });
+
+  /**=========== Map the Filtered Todos to Todo Components =========== */
+  const todoList = filteredTodos.map((t) => <Todo key={t.id} todo={t} />);
 
   return (
     <Container maxWidth="sm">
@@ -57,6 +60,9 @@ export default function TodoList() {
           <Divider />
 
           <ToggleButtonGroup
+            value={view}
+            exclusive
+            onChange={(e, newView) => setView(newView)}
             style={{
               display: "flex",
               justifyContent: "center",
@@ -69,22 +75,23 @@ export default function TodoList() {
             <ToggleButton value="all">الكل</ToggleButton>
           </ToggleButtonGroup>
 
-          
-            <div
-              style={{
-                maxHeight: "240px",
-                overflowY: "auto",
-                marginTop: "1rem",
-                paddingLeft: "1rem",
-              }}
-            >
-              {todos.length > 0 ? (
-                todosList
-              ) : (
-                <Typography variant="h6" sx={{textAlign:"center"}}> لايوجد مهام </Typography>
-              )}
-            </div>
-          
+          <div
+            style={{
+              maxHeight: "240px",
+              overflowY: "auto",
+              marginTop: "1rem",
+              width: "32.5rem",
+            }}
+          >
+            {todoList.length > 0 ? (
+              todoList
+            ) : (
+              <Typography variant="h6" sx={{ textAlign: "center" }}>
+                لايوجد مهام
+              </Typography>
+            )}
+          </div>
+
           <Grid container spacing={2} sx={{ width: "100%", marginTop: "1rem" }}>
             <Grid item xs={8}>
               <TextField
