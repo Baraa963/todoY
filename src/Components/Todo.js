@@ -27,7 +27,7 @@ export default function Todo({ todo }) {
       return t;
     });
 
-    setTodos(updatedTodos); 
+    setTodos(updatedTodos); // Update the state with the new list
     localStorage.setItem("todos", JSON.stringify(updatedTodos));
 
   }

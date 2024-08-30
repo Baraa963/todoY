@@ -17,7 +17,6 @@ export default function EditPopup({ todo,showEditPopup,setShowEditPopup }) {
       return t;
     });
     setTodos(TodoListAfterEditing);
-    
     setShowEditPopup(false)
   }
   return (

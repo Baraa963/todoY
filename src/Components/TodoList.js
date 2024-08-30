@@ -41,7 +41,7 @@ export default function TodoList() {
   }
 
   /**=========== Filter Todos Based on Selected View =========== */
-  const filteredTodos = todos
+  const filteredTodos = (todos || [])
     .filter((t) => {
       if (view === "done") return t.isCompleted;
       if (view === "not_done") return !t.isCompleted;
