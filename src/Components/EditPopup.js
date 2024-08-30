@@ -7,12 +7,12 @@ import Button from "@mui/material/Button";
 
 export default function EditPopup({ todo,showEditPopup,setShowEditPopup }) {
   const { todos, setTodos } = useContext(TodosContext);
-  const [editTitle, setEditTitle] = useState("");
+  const [updateTodo, setUpdateTodo] = useState({title:"",details:""});
 
   function EditedClick() {
     const TodoListAfterEditing = todos.map((t) => {
       if (t.id === todo.id) {
-        return { ...t, title: editTitle };
+        return { ...t, title: updateTodo.title };
       }
       return t;
     });
@@ -23,7 +23,9 @@ export default function EditPopup({ todo,showEditPopup,setShowEditPopup }) {
     <Grid container spacing={2} sx={{ width: "100%", marginTop: "1rem" }}>
       <Grid item xs={9}>
         <TextField
+        autoFocus
           id="outlined-basic"
+          placeholder={todo.title}
           label=" عنوان المهمة الجديد "
           variant="outlined"
           sx={{
@@ -49,8 +51,8 @@ export default function EditPopup({ todo,showEditPopup,setShowEditPopup }) {
               color: "white",
             },
           }}
-          value={editTitle}
-          onChange={(e) => setEditTitle(e.target.value)}
+          value={updateTodo.title}
+          onChange={(e) => setUpdateTodo({...updateTodo,title:e.target.value})}
         />
       </Grid>
       <Grid item xs={3}>

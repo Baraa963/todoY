@@ -3,46 +3,44 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import Button from "@mui/material/Button";
 import { TodosContext } from "../Contexts/TodosContext";
 
-export default function DeleteDialog({todo,open,setOpen}) {
-    const { todos, setTodos } = useContext(TodosContext);
+export default function DeleteDialog({ todo, openDelete, setOpenDelete }) {
+  const { todos, setTodos } = useContext(TodosContext);
 
-    const handleClickOpen = () => {
-      setOpen(false);
-    };
-  
-    const handleClose = () => {
-      const TodoListAfterDeletion = todos.filter((t) => {
-        return t.id !== todo.id;
-      });
-      setTodos(TodoListAfterDeletion);
-      setOpen(false);
+  const handleClickOpen = () => {
+    setOpenDelete(false);
+  };
 
-    };
+  const handleClose = () => {
+    const todosListAfterDeletion = todos.filter((t) => {
+      return t.id !== todo.id;
+    });
+    setTodos(todosListAfterDeletion);
+    setOpenDelete(false);
+  };
   return (
     <Dialog
-        open={open}
-        onClose={handleClickOpen}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title" sx={{ textAlign: "right" }}>
-          {" قائمة الحذف "}
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
+      sx={{ direction: "rtl" }}
+      open={openDelete}
+      onClose={handleClickOpen}
+      aria-labelledby="alert-dialog-title"
+      aria-describedby="alert-dialog-description"
+    >
+      <DialogTitle id="alert-dialog-title">{" قائمة الحذف "}</DialogTitle>
+      <DialogContent>
+        <DialogContentText id="alert-dialog-description">
           هل أنت متاكد من أنك تريد حذف هذه المهمة؟
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClickOpen}> إلغاء الأمر </Button>
-          <Button onClick={handleClose} autoFocus>
-            بالتأكيد
-          </Button>
-        </DialogActions>
-      </Dialog>
-  )
+        </DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleClickOpen}> إلغاء الأمر </Button>
+        <Button onClick={handleClose} autoFocus>
+          بالتأكيد
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
 }

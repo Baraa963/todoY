@@ -80,7 +80,7 @@ export default function TodoList() {
               maxHeight: "240px",
               overflowY: "auto",
               marginTop: "1rem",
-              width: "32.5rem",
+             
             }}
           >
             {todoList.length > 0 ? (

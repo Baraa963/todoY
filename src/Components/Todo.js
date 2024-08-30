@@ -9,8 +9,7 @@ import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import { useContext, useState } from "react";
 import { TodosContext } from "../Contexts/TodosContext";
 import DeleteDialog from "./DeleteDialog";
-
-import EditPopup from "./EditPopup";
+import EditDialog from "./EditDialog";
 export default function Todo({ todo }) {
   /**=========== todos Context Data =========== */
 
@@ -19,7 +18,6 @@ export default function Todo({ todo }) {
   /**=========== Edit the title and subtitle of the todo. =========== */
 
   const [showEditPopup, setShowEditPopup] = useState(false);
- 
 
   function CompletedClick() {
     const updatedTodos = todos.map((t) => {
@@ -32,14 +30,19 @@ export default function Todo({ todo }) {
     setTodos(updatedTodos); // Update the state with the new list
   }
 
-  const [open, setOpen] = useState(false);
-  function DeletedClick() {
-    setOpen(true);
-  }
+  const [openEdit, setOpenEdit] = useState(false);
+  const [openDelete, setOpenDelete] = useState(false);
 
+  function DeletedClick() {
+    setOpenDelete(true);
+  }
+  function EditedClick() {
+    setOpenEdit(true);
+  }
   return (
     <>
-      {open ? <DeleteDialog todo={todo} open={open} setOpen={setOpen} /> : null}
+      {openDelete ? (<DeleteDialog todo={todo} openDelete={openDelete} setOpenDelete={setOpenDelete}/>) : null}
+      {openEdit ? (<EditDialog todo={todo} openEdit={openEdit} setOpenEdit={setOpenEdit} />) : null}
 
       <Card
         className="todo-card"
@@ -81,7 +84,7 @@ export default function Todo({ todo }) {
                   background: "white",
                   border: "solid #1769aa 3px",
                 }}
-                onClick={() => setShowEditPopup((prev) => !prev)}
+                onClick={EditedClick}
               >
                 <ModeEditIcon />
               </IconButton>
@@ -98,7 +101,6 @@ export default function Todo({ todo }) {
               </IconButton>
             </Grid>
           </Grid>
-          {showEditPopup && <EditPopup todo={todo} showEditPopup={showEditPopup} setShowEditPopup={setShowEditPopup} />}
         </CardContent>
       </Card>
     </>
