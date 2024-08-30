@@ -17,13 +17,15 @@ export default function EditDialog({ todo, openEdit, setOpenEdit }) {
   };
 
   function EditedClick() {
-    const TodoListAfterEditing = todos.map((t) => {
+    const updatedTodos = todos.map((t) => {
       if (t.id === todo.id) {
         return { ...t, title: updateTodo.title };
       }
       return t;
     });
-    setTodos(TodoListAfterEditing);
+    setTodos(updatedTodos);
+    localStorage.setItem("todos", JSON.stringify(updatedTodos));
+
     setOpenEdit(false);
   }
   return (

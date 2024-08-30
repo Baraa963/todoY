@@ -15,10 +15,12 @@ export default function DeleteDialog({ todo, openDelete, setOpenDelete }) {
   };
 
   const handleClose = () => {
-    const todosListAfterDeletion = todos.filter((t) => {
+    const updatedTodos = todos.filter((t) => {
       return t.id !== todo.id;
     });
-    setTodos(todosListAfterDeletion);
+    setTodos(updatedTodos);
+    localStorage.setItem("todos", JSON.stringify(updatedTodos));
+
     setOpenDelete(false);
   };
   return (

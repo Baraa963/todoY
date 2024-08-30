@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
@@ -31,21 +31,29 @@ export default function TodoList() {
       title: titleTodo,
       details: detailsTodo,
       isCompleted: false,
+      createdDate: new Date(), // Oluşturulma tarihi ekliyoruz
     };
-    setTodos([...todos, newTodo]);
     setTitleTodo("");
     setDetailsTodo("");
+    const updatedTodos = [...todos, newTodo];
+    setTodos(updatedTodos);
+    localStorage.setItem("todos", JSON.stringify(updatedTodos));
   }
 
   /**=========== Filter Todos Based on Selected View =========== */
-  const filteredTodos = todos.filter((t) => {
-    if (view === "done") return t.isCompleted;
-    if (view === "not_done") return !t.isCompleted;
-    return true; // Show all todos if "all" is selected
-  });
+  const filteredTodos = todos
+    .filter((t) => {
+      if (view === "done") return t.isCompleted;
+      if (view === "not_done") return !t.isCompleted;
+      return true;
+    })
+    .sort((a, b) => new Date(b.createdDate) - new Date(a.createdDate)); // Görevleri tarihe göre sıralıyoruz (yeni > eski)
 
-  /**=========== Map the Filtered Todos to Todo Components =========== */
   const todoList = filteredTodos.map((t) => <Todo key={t.id} todo={t} />);
+  useEffect(() => {
+    const storageTodos = JSON.parse(localStorage.getItem("todos"));
+    setTodos(storageTodos);
+  }, []);
 
   return (
     <Container maxWidth="sm">
@@ -80,7 +88,6 @@ export default function TodoList() {
               maxHeight: "240px",
               overflowY: "auto",
               marginTop: "1rem",
-             
             }}
           >
             {todoList.length > 0 ? (

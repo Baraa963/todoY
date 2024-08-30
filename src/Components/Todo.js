@@ -27,7 +27,9 @@ export default function Todo({ todo }) {
       return t;
     });
 
-    setTodos(updatedTodos); // Update the state with the new list
+    setTodos(updatedTodos); 
+    localStorage.setItem("todos", JSON.stringify(updatedTodos));
+
   }
 
   const [openEdit, setOpenEdit] = useState(false);
