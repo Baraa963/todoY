@@ -1,57 +1,56 @@
-import React, { useContext, useState, useEffect } from "react";
+import * as React from 'react';
+import { SnackbarProvider, useSnackbar } from 'notistack';
+import { useState,useContext } from 'react';
+import Button from '@mui/material/Button';
+import { TodosContext } from "../Contexts/TodosContext";
+import TextField from "@mui/material/TextField";
+import Grid from "@mui/material/Grid";
+import Container from "@mui/material/Container";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
 import Divider from "@mui/material/Divider";
-import Todo from "./Todo";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
-import Grid from "@mui/material/Grid";
-import TextField from "@mui/material/TextField";
-import { TodosContext } from "../Contexts/TodosContext";
+import Todo from "./Todo";
 import { v4 as uuidv4 } from "uuid";
 
-export default function TodoList() {
-  /**=========== todos Context Data =========== */
+function TodoList() {
   const { todos, setTodos } = useContext(TodosContext);
-
-  /**=========== State to Control Filter View =========== */
+  const { enqueueSnackbar } = useSnackbar();
+  
   const [view, setView] = useState("all");
-
-  /**=========== titleTodo & detailsTodo useStates =========== */
   const [titleTodo, setTitleTodo] = useState("");
   const [detailsTodo, setDetailsTodo] = useState("");
 
-  /**=========== Add a New Todo =========== */
   function handleAddTodo() {
     const newTodo = {
       id: uuidv4(),
       title: titleTodo,
       details: detailsTodo,
       isCompleted: false,
-      createdDate: new Date(), // Oluşturulma tarihi ekliyoruz
+      createdDate: new Date(),
     };
     setTitleTodo("");
     setDetailsTodo("");
     const updatedTodos = [...todos, newTodo];
     setTodos(updatedTodos);
     localStorage.setItem("todos", JSON.stringify(updatedTodos));
+
+    enqueueSnackbar(' تمت إضافة مهمة جديدة بنجاح ', { variant: 'success' });
   }
 
-  /**=========== Filter Todos Based on Selected View =========== */
-  const filteredTodos = (todos || [])
-    .filter((t) => {
+  const filteredTodos = todos.filter((t) => {
       if (view === "done") return t.isCompleted;
       if (view === "not_done") return !t.isCompleted;
       return true;
     })
-    .sort((a, b) => new Date(b.createdDate) - new Date(a.createdDate)); // Görevleri tarihe göre sıralıyoruz (yeni > eski)
+    .sort((a, b) => new Date(b.createdDate) - new Date(a.createdDate)); 
 
   const todoList = filteredTodos.map((t) => <Todo key={t.id} todo={t} />);
-  useEffect(() => {
-    const storageTodos = JSON.parse(localStorage.getItem("todos"));
+
+  React.useEffect(() => {
+    const storageTodos = JSON.parse(localStorage.getItem("todos")) ?? [];
     setTodos(storageTodos);
   }, []);
 
@@ -70,7 +69,8 @@ export default function TodoList() {
           <ToggleButtonGroup
             value={view}
             exclusive
-            onChange={(e, newView) => setView(newView)}
+            color="secondary"
+            onChange={(e) => setView(e.target.value)}
             style={{
               display: "flex",
               justifyContent: "center",
@@ -115,6 +115,7 @@ export default function TodoList() {
                 variant="contained"
                 sx={{ width: "110%", height: "100%" }}
                 onClick={handleAddTodo}
+                disabled={titleTodo.length === 0}
               >
                 إضافة مهمة
               </Button>
@@ -123,5 +124,13 @@ export default function TodoList() {
         </CardContent>
       </Card>
     </Container>
+  );
+}
+
+export default function IntegrationNotistack() {
+  return (
+    <SnackbarProvider maxSnack={3}>
+      <TodoList />
+    </SnackbarProvider>
   );
 }

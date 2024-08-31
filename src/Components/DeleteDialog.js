@@ -6,9 +6,11 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { useContext } from "react";
 import Button from "@mui/material/Button";
 import { TodosContext } from "../Contexts/TodosContext";
+import { useSnackbar } from 'notistack';
 
 export default function DeleteDialog({ todo, openDelete, setOpenDelete }) {
   const { todos, setTodos } = useContext(TodosContext);
+  const { enqueueSnackbar } = useSnackbar();
 
   const handleClickOpen = () => {
     setOpenDelete(false);
@@ -21,8 +23,12 @@ export default function DeleteDialog({ todo, openDelete, setOpenDelete }) {
     setTodos(updatedTodos);
     localStorage.setItem("todos", JSON.stringify(updatedTodos));
 
+    // Görev silindiğinde Snackbar bildirimi göster
+    enqueueSnackbar('تم حذف المهمة بنجاح', { variant: 'error' });
+
     setOpenDelete(false);
   };
+
   return (
     <Dialog
       sx={{ direction: "rtl" }}

@@ -9,6 +9,14 @@ const theme = createTheme({
   typography: {
     fontFamily: ["A"],
   },
+  palette:{
+    primary:{
+      main:"#009688"
+    },
+    secondary:{
+      main:"#283593"
+    },
+  }
 });
 function App() {
   const [todos, setTodos] = useState([]);

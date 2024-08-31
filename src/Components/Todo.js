@@ -29,7 +29,6 @@ export default function Todo({ todo }) {
 
     setTodos(updatedTodos); // Update the state with the new list
     localStorage.setItem("todos", JSON.stringify(updatedTodos));
-
   }
 
   const [openEdit, setOpenEdit] = useState(false);
@@ -43,8 +42,16 @@ export default function Todo({ todo }) {
   }
   return (
     <>
-      {openDelete ? (<DeleteDialog todo={todo} openDelete={openDelete} setOpenDelete={setOpenDelete}/>) : null}
-      {openEdit ? (<EditDialog todo={todo} openEdit={openEdit} setOpenEdit={setOpenEdit} />) : null}
+      {openDelete ? (
+        <DeleteDialog
+          todo={todo}
+          openDelete={openDelete}
+          setOpenDelete={setOpenDelete}
+        />
+      ) : null}
+      {openEdit ? (
+        <EditDialog todo={todo} openEdit={openEdit} setOpenEdit={setOpenEdit} />
+      ) : null}
 
       <Card
         className="todo-card"
@@ -58,7 +65,14 @@ export default function Todo({ todo }) {
         <CardContent>
           <Grid container spacing={2}>
             <Grid item xs={8}>
-              <Typography variant="h5">{todo.title}</Typography>
+              <Typography
+                variant="h5"
+                style={{
+                  textDecoration: todo.isCompleted ? "line-through" : "none",
+                }}
+              >
+                {todo.title}
+              </Typography>
               <Typography variant="h6">{todo.details}</Typography>
             </Grid>
             <Grid

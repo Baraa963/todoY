@@ -7,9 +7,11 @@ import { TodosContext } from "../Contexts/TodosContext";
 import Button from "@mui/material/Button";
 import { useContext, useState } from "react";
 import TextField from "@mui/material/TextField";
+import { useSnackbar } from 'notistack';
 
 export default function EditDialog({ todo, openEdit, setOpenEdit }) {
   const { todos, setTodos } = useContext(TodosContext);
+  const { enqueueSnackbar } = useSnackbar();
   const [updateTodo, setUpdateTodo] = useState({ title: "", details: "" });
 
   const handleClickOpen = () => {
@@ -26,8 +28,12 @@ export default function EditDialog({ todo, openEdit, setOpenEdit }) {
     setTodos(updatedTodos);
     localStorage.setItem("todos", JSON.stringify(updatedTodos));
 
+    // Görev düzenlendiğinde Snackbar bildirimi göster
+    enqueueSnackbar('تم تعديل المهمة بنجاح', { variant: 'warning' });
+
     setOpenEdit(false);
   }
+
   return (
     <Dialog
       sx={{ direction: "rtl" }}
@@ -36,21 +42,19 @@ export default function EditDialog({ todo, openEdit, setOpenEdit }) {
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
     >
-      <DialogTitle id="alert-dialog-title">{" قائمة الحذف "}</DialogTitle>
+      <DialogTitle id="alert-dialog-title">{" قائمة التعديل "}</DialogTitle>
       <DialogContent>
         <TextField
-          sx={{width:"100%"}}
+          sx={{ width: "100%" }}
           placeholder={todo.title}
           required
           margin="dense"
           label=" عنوان المهمة الجديد "
-          type="email"
+          type="text"
           autoFocus
           variant="standard"
           value={updateTodo.title}
-          onChange={(e) =>
-            setUpdateTodo({ ...updateTodo, title: e.target.value })
-          }
+          onChange={(e) => setUpdateTodo({ ...updateTodo, title: e.target.value })}
         />
       </DialogContent>
       <DialogContent>
@@ -61,9 +65,7 @@ export default function EditDialog({ todo, openEdit, setOpenEdit }) {
       <DialogActions>
         <Button onClick={handleClickOpen}> إلغاء الأمر </Button>
         <Button
-          onClick={() => {
-            EditedClick();
-          }}
+          onClick={EditedClick}
           autoFocus
         >
           تعديل المهمة
