@@ -24,7 +24,7 @@ export default function DeleteDialog({ todo, openDelete, setOpenDelete }) {
     localStorage.setItem("todos", JSON.stringify(updatedTodos));
 
     // Görev silindiğinde Snackbar bildirimi göster
-    enqueueSnackbar('تم حذف المهمة بنجاح', { variant: 'error' });
+    enqueueSnackbar('تم حذف المهمة بنجاح', { variant: 'error' , autoHideDuration: 1500});
 
     setOpenDelete(false);
   };

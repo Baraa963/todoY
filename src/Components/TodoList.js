@@ -1,7 +1,7 @@
-import * as React from 'react';
-import { SnackbarProvider, useSnackbar } from 'notistack';
-import { useState,useContext } from 'react';
-import Button from '@mui/material/Button';
+import * as React from "react";
+import { useSnackbar } from "notistack";
+import { useState, useContext, useMemo } from "react";
+import Button from "@mui/material/Button";
 import { TodosContext } from "../Contexts/TodosContext";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
@@ -15,10 +15,10 @@ import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import Todo from "./Todo";
 import { v4 as uuidv4 } from "uuid";
 
-function TodoList() {
+export default function TodoList() {
   const { todos, setTodos } = useContext(TodosContext);
   const { enqueueSnackbar } = useSnackbar();
-  
+
   const [view, setView] = useState("all");
   const [titleTodo, setTitleTodo] = useState("");
   const [detailsTodo, setDetailsTodo] = useState("");
@@ -37,15 +37,17 @@ function TodoList() {
     setTodos(updatedTodos);
     localStorage.setItem("todos", JSON.stringify(updatedTodos));
 
-    enqueueSnackbar(' تمت إضافة مهمة جديدة بنجاح ', { variant: 'success' });
+    enqueueSnackbar(" تمت إضافة مهمة جديدة بنجاح ", { variant: "success" , autoHideDuration: 1500});
   }
-
-  const filteredTodos = todos.filter((t) => {
-      if (view === "done") return t.isCompleted;
-      if (view === "not_done") return !t.isCompleted;
-      return true;
-    })
-    .sort((a, b) => new Date(b.createdDate) - new Date(a.createdDate)); 
+  const filteredTodos = useMemo(() => {
+    return todos.filter((t) => {
+      console.log("call")
+        if (view === "done") return t.isCompleted;
+        if (view === "not_done") return !t.isCompleted;
+        return true;
+      })
+      .sort((a, b) => new Date(b.createdDate) - new Date(a.createdDate));
+  }, [todos,view]);
 
   const todoList = filteredTodos.map((t) => <Todo key={t.id} todo={t} />);
 
@@ -127,10 +129,4 @@ function TodoList() {
   );
 }
 
-export default function IntegrationNotistack() {
-  return (
-    <SnackbarProvider maxSnack={3}>
-      <TodoList />
-    </SnackbarProvider>
-  );
-}
+

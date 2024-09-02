@@ -3,6 +3,7 @@ import { useState } from "react";
 import TodoList from "./Components/TodoList";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { TodosContext } from "./Contexts/TodosContext";
+import { SnackbarProvider} from "notistack";
 
 
 const theme = createTheme({
@@ -16,6 +17,10 @@ const theme = createTheme({
     secondary:{
       main:"#283593"
     },
+    third:{
+      main:"#1769aa"
+    },
+    
   }
 });
 function App() {
@@ -23,9 +28,12 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <div className="App">
+      <SnackbarProvider maxSnack={3}>
         <TodosContext.Provider value={{todos,setTodos}}>
           <TodoList />
         </TodosContext.Provider>
+      </SnackbarProvider>
+
       </div>
     </ThemeProvider>
   );

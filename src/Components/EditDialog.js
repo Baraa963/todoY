@@ -12,7 +12,7 @@ import { useSnackbar } from 'notistack';
 export default function EditDialog({ todo, openEdit, setOpenEdit }) {
   const { todos, setTodos } = useContext(TodosContext);
   const { enqueueSnackbar } = useSnackbar();
-  const [updateTodo, setUpdateTodo] = useState({ title: "", details: "" });
+  const [updateTodo, setUpdateTodo] = useState({ title: todo.title, details: "" });
 
   const handleClickOpen = () => {
     setOpenEdit(false);
@@ -29,7 +29,7 @@ export default function EditDialog({ todo, openEdit, setOpenEdit }) {
     localStorage.setItem("todos", JSON.stringify(updatedTodos));
 
     // Görev düzenlendiğinde Snackbar bildirimi göster
-    enqueueSnackbar('تم تعديل المهمة بنجاح', { variant: 'warning' });
+    enqueueSnackbar('تم تعديل المهمة بنجاح', { variant: 'warning' , autoHideDuration: 1500});
 
     setOpenEdit(false);
   }
@@ -46,7 +46,6 @@ export default function EditDialog({ todo, openEdit, setOpenEdit }) {
       <DialogContent>
         <TextField
           sx={{ width: "100%" }}
-          placeholder={todo.title}
           required
           margin="dense"
           label=" عنوان المهمة الجديد "
@@ -63,10 +62,11 @@ export default function EditDialog({ todo, openEdit, setOpenEdit }) {
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClickOpen}> إلغاء الأمر </Button>
+        <Button color="third" onClick={handleClickOpen}> إلغاء الأمر </Button>
         <Button
           onClick={EditedClick}
           autoFocus
+          color="third"
         >
           تعديل المهمة
         </Button>
