@@ -7,12 +7,12 @@ import { TodosContext } from "../Contexts/TodosContext";
 import Button from "@mui/material/Button";
 import { useContext, useState } from "react";
 import TextField from "@mui/material/TextField";
-import { useSnackbar } from 'notistack';
-
+import { useToast } from "../Contexts/ToastContext";
 export default function EditDialog({ todo, openEdit, setOpenEdit }) {
   const { todos, setTodos } = useContext(TodosContext);
-  const { enqueueSnackbar } = useSnackbar();
+  
   const [updateTodo, setUpdateTodo] = useState({ title: todo.title, details: "" });
+  const { showToast } = useToast()
 
   const handleClickOpen = () => {
     setOpenEdit(false);
@@ -27,11 +27,8 @@ export default function EditDialog({ todo, openEdit, setOpenEdit }) {
     });
     setTodos(updatedTodos);
     localStorage.setItem("todos", JSON.stringify(updatedTodos));
-
-    // Görev düzenlendiğinde Snackbar bildirimi göster
-    enqueueSnackbar('تم تعديل المهمة بنجاح', { variant: 'warning' , autoHideDuration: 1500});
-
     setOpenEdit(false);
+    showToast(" تم تعديل المهمة بنجاح ", "warning")
   }
 
   return (

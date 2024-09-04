@@ -1,16 +1,16 @@
+import { useContext } from "react";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import { useContext } from "react";
 import Button from "@mui/material/Button";
 import { TodosContext } from "../Contexts/TodosContext";
-import { useSnackbar } from 'notistack';
+import {  useToast} from "../Contexts/ToastContext";
 
 export default function DeleteDialog({ todo, openDelete, setOpenDelete }) {
   const { todos, setTodos } = useContext(TodosContext);
-  const { enqueueSnackbar } = useSnackbar();
+  const { showToast } = useToast()
 
   const handleClickOpen = () => {
     setOpenDelete(false);
@@ -22,11 +22,8 @@ export default function DeleteDialog({ todo, openDelete, setOpenDelete }) {
     });
     setTodos(updatedTodos);
     localStorage.setItem("todos", JSON.stringify(updatedTodos));
-
-    // Görev silindiğinde Snackbar bildirimi göster
-    enqueueSnackbar('تم حذف المهمة بنجاح', { variant: 'error' , autoHideDuration: 1500});
-
     setOpenDelete(false);
+    showToast(' تم حذف المهمة بنجاح ',"error");
   };
 
   return (

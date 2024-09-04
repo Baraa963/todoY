@@ -1,5 +1,4 @@
 import * as React from "react";
-import { useSnackbar } from "notistack";
 import { useState, useContext, useMemo } from "react";
 import Button from "@mui/material/Button";
 import { TodosContext } from "../Contexts/TodosContext";
@@ -14,14 +13,14 @@ import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import Todo from "./Todo";
 import { v4 as uuidv4 } from "uuid";
+import { useToast } from "../Contexts/ToastContext";
 
 export default function TodoList() {
   const { todos, setTodos } = useContext(TodosContext);
-  const { enqueueSnackbar } = useSnackbar();
-
   const [view, setView] = useState("all");
   const [titleTodo, setTitleTodo] = useState("");
   const [detailsTodo, setDetailsTodo] = useState("");
+  const { showToast } = useToast();
 
   function handleAddTodo() {
     const newTodo = {
@@ -36,18 +35,18 @@ export default function TodoList() {
     const updatedTodos = [...todos, newTodo];
     setTodos(updatedTodos);
     localStorage.setItem("todos", JSON.stringify(updatedTodos));
-
-    enqueueSnackbar(" تمت إضافة مهمة جديدة بنجاح ", { variant: "success" , autoHideDuration: 1500});
+    showToast(" تمت إضافة مهمة جديدة بنجاح ","sucsses");
   }
   const filteredTodos = useMemo(() => {
-    return todos.filter((t) => {
-      console.log("call")
+    return todos
+      .filter((t) => {
+        console.log("call");
         if (view === "done") return t.isCompleted;
         if (view === "not_done") return !t.isCompleted;
         return true;
       })
       .sort((a, b) => new Date(b.createdDate) - new Date(a.createdDate));
-  }, [todos,view]);
+  }, [todos, view]);
 
   const todoList = filteredTodos.map((t) => <Todo key={t.id} todo={t} />);
 
@@ -128,5 +127,3 @@ export default function TodoList() {
     </Container>
   );
 }
-
-

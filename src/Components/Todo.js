@@ -10,25 +10,32 @@ import { useContext, useState } from "react";
 import { TodosContext } from "../Contexts/TodosContext";
 import DeleteDialog from "./DeleteDialog";
 import EditDialog from "./EditDialog";
+import { useToast } from "../Contexts/ToastContext";
+
 export default function Todo({ todo }) {
   /**=========== todos Context Data =========== */
 
   const { todos, setTodos } = useContext(TodosContext);
-
+  const { showToast } = useToast();
   /**=========== Edit the title and subtitle of the todo. =========== */
-
-  const [showEditPopup, setShowEditPopup] = useState(false);
 
   function CompletedClick() {
     const updatedTodos = todos.map((t) => {
       if (t.id === todo.id) {
-        return { ...t, isCompleted: !t.isCompleted }; // Toggle the completion status
+        return { ...t, isCompleted: !t.isCompleted }; 
       }
       return t;
     });
 
-    setTodos(updatedTodos); // Update the state with the new list
+    setTodos(updatedTodos); 
     localStorage.setItem("todos", JSON.stringify(updatedTodos));
+    const completedTodo = updatedTodos.find((t) => t.id === todo.id);
+  
+    if (completedTodo.isCompleted) {
+      showToast("تم إنجاز هذه المهمة", "success");
+    } else {
+      showToast("لم يتم إنجاز هذه المهمة", "warning");
+    }
   }
 
   const [openEdit, setOpenEdit] = useState(false);

@@ -1,39 +1,50 @@
 import "./App.css";
-import { useState } from "react";
+import { useState,redu } from "react";
 import TodoList from "./Components/TodoList";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { TodosContext } from "./Contexts/TodosContext";
-import { SnackbarProvider} from "notistack";
-
-
+import SnackBar from "./Components/SnackBar";
+import { ToastProvider } from "./Contexts/ToastContext";
+import Loading from "./Components/Loading";
 const theme = createTheme({
   typography: {
     fontFamily: ["A"],
   },
-  palette:{
-    primary:{
-      main:"#009688"
+  palette: {
+    primary: {
+      main: "#009688",
     },
-    secondary:{
-      main:"#283593"
+    secondary: {
+      main: "#283593",
     },
-    third:{
-      main:"#1769aa"
+    third: {
+      main: "#1769aa",
     },
-    
-  }
+  },
 });
+
 function App() {
   const [todos, setTodos] = useState([]);
+  const [loading, setLoading] = useState(true);
+  
+
+ 
+
   return (
     <ThemeProvider theme={theme}>
       <div className="App">
-      <SnackbarProvider maxSnack={3}>
-        <TodosContext.Provider value={{todos,setTodos}}>
-          <TodoList />
-        </TodosContext.Provider>
-      </SnackbarProvider>
-
+        <ToastProvider>
+          <TodosContext.Provider value={{ todos, setTodos }}>
+            {loading ? (
+              <Loading loading={loading} setLoading={setLoading}/>
+            ) : (
+              <>
+              <SnackBar/>
+              <TodoList />
+              </>
+            )}
+          </TodosContext.Provider>
+        </ToastProvider>
       </div>
     </ThemeProvider>
   );
