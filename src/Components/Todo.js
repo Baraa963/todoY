@@ -6,60 +6,51 @@ import CheckIcon from "@mui/icons-material/Check";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
-import { useContext, useState } from "react";
-import { TodosContext } from "../Contexts/TodosContext";
+import { useState } from "react";
 import DeleteDialog from "./DeleteDialog";
 import EditDialog from "./EditDialog";
 import { useToast } from "../Contexts/ToastContext";
 
-export default function Todo({ todo }) {
-  /**=========== todos Context Data =========== */
-
-  const { todos, setTodos } = useContext(TodosContext);
+export default function Todo({ todo, dispatch }) {
   const { showToast } = useToast();
-  /**=========== Edit the title and subtitle of the todo. =========== */
-
-  function CompletedClick() {
-    const updatedTodos = todos.map((t) => {
-      if (t.id === todo.id) {
-        return { ...t, isCompleted: !t.isCompleted }; 
-      }
-      return t;
-    });
-
-    setTodos(updatedTodos); 
-    localStorage.setItem("todos", JSON.stringify(updatedTodos));
-    const completedTodo = updatedTodos.find((t) => t.id === todo.id);
-  
-    if (completedTodo.isCompleted) {
-      showToast("تم إنجاز هذه المهمة", "success");
-    } else {
-      showToast("لم يتم إنجاز هذه المهمة", "warning");
-    }
-  }
-
   const [openEdit, setOpenEdit] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
+
+  function CompletedClick() {
+    dispatch({
+      type: "TodoCompleteToggle",
+      payload: { id: todo.id },
+    });
+    const message = todo.isCompleted ? "لم يتم إنجاز هذه المهمة" : "تم إنجاز هذه المهمة";
+    showToast(message, todo.isCompleted ? "warning" : "success");
+  }
 
   function DeletedClick() {
     setOpenDelete(true);
   }
+
   function EditedClick() {
     setOpenEdit(true);
   }
+
   return (
     <>
-      {openDelete ? (
+      {openDelete && (
         <DeleteDialog
           todo={todo}
           openDelete={openDelete}
           setOpenDelete={setOpenDelete}
+          dispatch={dispatch}
         />
-      ) : null}
-      {openEdit ? (
-        <EditDialog todo={todo} openEdit={openEdit} setOpenEdit={setOpenEdit} />
-      ) : null}
-
+      )}
+      {openEdit && (
+        <EditDialog
+          todo={todo}
+          openEdit={openEdit}
+          setOpenEdit={setOpenEdit}
+          dispatch={dispatch}
+        />
+      )}
       <Card
         className="todo-card"
         sx={{

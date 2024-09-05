@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState, useReducer, useMemo } from "react";
+import { useState, useMemo } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
@@ -11,29 +11,28 @@ import Divider from "@mui/material/Divider";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import Todo from "./Todo";
-import TodoReducer from "../Redures/TodosReducer"
 import { useToast } from "../Contexts/ToastContext";
 
-export default function TodoList() {
-  // Initialize useReducer
-  const [todos, dispatch] = useReducer(TodoReducer, []);
+export default function TodoList({ todos, dispatch }) {
   const [view, setView] = useState("all");
   const [titleTodo, setTitleTodo] = useState("");
   const [detailsTodo, setDetailsTodo] = useState("");
   const { showToast } = useToast();
 
-  // Handle adding a new todo
   function handleAddTodo() {
+    console.log("handleAddTodo called");
+    
     dispatch({
       type: "TodoAdd",
       payload: { newTodo: titleTodo },
     });
+    
     setTitleTodo("");
     setDetailsTodo("");
-    showToast("تمت إضافة مهمة جديدة بنجاح", "sucsses");
+    
+    showToast("تمت إضافة مهمة جديدة بنجاح", "success");
   }
 
-  // Filtering todos based on the view (all, done, not_done)
   const filteredTodos = useMemo(() => {
     return todos
       .filter((t) => {
@@ -44,13 +43,12 @@ export default function TodoList() {
       .sort((a, b) => new Date(b.createdDate) - new Date(a.createdDate));
   }, [todos, view]);
 
-  const todoList = filteredTodos.map((t) => <Todo key={t.id} todo={t} />);
+  const todoList = filteredTodos.map((t) => <Todo key={t.id} todo={t} dispatch={dispatch} />);
 
-  // Initialize todos from localStorage
   React.useEffect(() => {
     const storageTodos = JSON.parse(localStorage.getItem("todos")) ?? [];
     dispatch({ type: "InitializeTodos", payload: storageTodos });
-  }, []);
+  }, [dispatch]);
 
   return (
     <Container maxWidth="sm">
@@ -63,7 +61,6 @@ export default function TodoList() {
             مهامي
           </Typography>
           <Divider />
-
           <ToggleButtonGroup
             value={view}
             exclusive
@@ -80,7 +77,6 @@ export default function TodoList() {
             <ToggleButton value="done">المنجز</ToggleButton>
             <ToggleButton value="all">الكل</ToggleButton>
           </ToggleButtonGroup>
-
           <div
             style={{
               maxHeight: "240px",
@@ -96,7 +92,6 @@ export default function TodoList() {
               </Typography>
             )}
           </div>
-
           <Grid container spacing={2} sx={{ width: "100%", marginTop: "1rem" }}>
             <Grid item xs={8}>
               <TextField

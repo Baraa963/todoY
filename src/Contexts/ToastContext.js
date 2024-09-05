@@ -1,31 +1,43 @@
-import { createContext, useState ,useContext} from "react";
-import SnackBar from "../Components/SnackBar";
-const ToastContext = createContext([]);
+import React, { createContext, useState, useContext } from "react";
+import { Snackbar } from "@mui/material";
+import MuiAlert from "@mui/material/Alert";
+
+const ToastContext = createContext();
 
 export const ToastProvider = ({ children }) => {
-    const [open, setOpen] = useState(false);
-  const [toastMessage, setToastMessage] = useState("");
-  const [variant, setVariant] = useState("");
+  const [toast, setToast] = useState({
+    open: false,
+    message: "",
+    severity: "success",
+  });
 
-  const handleClose = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-
-    setOpen(false);
+  const showToast = (message, severity = "success") => {
+    setToast({ open: true, message, severity });
   };
-  function showToast(message,variant) {
-    setOpen(true);
-    setToastMessage(message);
-    setVariant(variant);
-  }
+
+  const handleClose = () => {
+    setToast({ ...toast, open: false });
+  };
 
   return (
-    <ToastContext.Provider value={{ showToast }}>
-      <SnackBar open={open} setOpen={setOpen} handleClose={handleClose} toastMessage={toastMessage} variant={variant}/>
+    <ToastContext.Provider value={{ ...toast, showToast, handleClose }}>
       {children}
+      <Snackbar
+        open={toast.open}
+        autoHideDuration={2000}
+        onClose={handleClose}
+      >
+        <MuiAlert
+          elevation={6}
+          variant="filled"
+          severity={toast.severity}
+          onClose={handleClose}
+        >
+          {toast.message}
+        </MuiAlert>
+      </Snackbar>
     </ToastContext.Provider>
   );
 };
 
-export const useToast = ()=>{return useContext(ToastContext)}
+export const useToast = () => useContext(ToastContext);
