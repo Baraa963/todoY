@@ -21,15 +21,15 @@ export default function TodoList({ todos, dispatch }) {
 
   function handleAddTodo() {
     console.log("handleAddTodo called");
-    
+
     dispatch({
       type: "TodoAdd",
-      payload: { newTodo: titleTodo },
+      payload: { newTodo: { title: titleTodo, details: detailsTodo } },
     });
-    
+
     setTitleTodo("");
     setDetailsTodo("");
-    
+
     showToast("تمت إضافة مهمة جديدة بنجاح", "success");
   }
 
@@ -43,7 +43,9 @@ export default function TodoList({ todos, dispatch }) {
       .sort((a, b) => new Date(b.createdDate) - new Date(a.createdDate));
   }, [todos, view]);
 
-  const todoList = filteredTodos.map((t) => <Todo key={t.id} todo={t} dispatch={dispatch} />);
+  const todoList = filteredTodos.map((t) => (
+    <Todo key={t.id} todo={t} dispatch={dispatch} />
+  ));
 
   React.useEffect(() => {
     const storageTodos = JSON.parse(localStorage.getItem("todos")) ?? [];
@@ -92,8 +94,8 @@ export default function TodoList({ todos, dispatch }) {
               </Typography>
             )}
           </div>
-          <Grid container spacing={2} sx={{ width: "100%", marginTop: "1rem" }}>
-            <Grid item xs={8}>
+          <Grid container spacing={2} sx={{ width: "100%", marginTop: "1rem",marginRight:"0.4rem"}}>
+            <Grid item xs={6}>
               <TextField
                 id="outlined-basic"
                 label="عنوان المهمة"
@@ -103,12 +105,22 @@ export default function TodoList({ todos, dispatch }) {
                 onChange={(e) => setTitleTodo(e.target.value)}
               />
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={6}>
+              <TextField
+                id="outlined-basic"
+                label=" التفاصيل "
+                variant="outlined"
+                sx={{ width: "100%" }}
+                value={detailsTodo}
+                onChange={(e) => setDetailsTodo(e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={11}>
               <Button
                 variant="contained"
                 sx={{ width: "110%", height: "100%" }}
                 onClick={handleAddTodo}
-                disabled={titleTodo.length === 0}
+                disabled={titleTodo.length === 0 || detailsTodo.length===0}
               >
                 إضافة مهمة
               </Button>

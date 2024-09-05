@@ -5,8 +5,8 @@ const TodoReducer = (state, action) => {
     case "TodoAdd":
       const newTodo = {
         id: Date.now(),
-        title: action.payload.newTodo,
-        details: "",
+        title: action.payload.newTodo.details,
+        details:action.payload.newTodo.title,
         isCompleted: false,
         createdDate: new Date().toISOString(),
       };
