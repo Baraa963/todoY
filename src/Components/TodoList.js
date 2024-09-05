@@ -83,7 +83,7 @@ export default function TodoList({ todos, dispatch }) {
             style={{
               maxHeight: "240px",
               overflowY: "auto",
-              marginTop: "1rem",
+            
             }}
           >
             {todoList.length > 0 ? (
@@ -94,10 +94,13 @@ export default function TodoList({ todos, dispatch }) {
               </Typography>
             )}
           </div>
-          <Grid container spacing={2} sx={{ width: "100%", marginTop: "1rem",marginRight:"0.4rem"}}>
-            <Grid item xs={6}>
+          <Grid
+            container
+            spacing={2}
+            sx={{ width: "100%",  marginRight: "0.48rem" }}
+          >
+            <Grid item xs={6} sx={{ direction: "rtl" }}>
               <TextField
-                id="outlined-basic"
                 label="عنوان المهمة"
                 variant="outlined"
                 sx={{ width: "100%" }}
@@ -107,7 +110,6 @@ export default function TodoList({ todos, dispatch }) {
             </Grid>
             <Grid item xs={6}>
               <TextField
-                id="outlined-basic"
                 label=" التفاصيل "
                 variant="outlined"
                 sx={{ width: "100%" }}
@@ -118,9 +120,9 @@ export default function TodoList({ todos, dispatch }) {
             <Grid item xs={11}>
               <Button
                 variant="contained"
-                sx={{ width: "110%", height: "100%" }}
+                sx={{ width: "110%", height: "130%" }}
                 onClick={handleAddTodo}
-                disabled={titleTodo.length === 0 || detailsTodo.length===0}
+                disabled={titleTodo.length === 0 || detailsTodo.length === 0}
               >
                 إضافة مهمة
               </Button>

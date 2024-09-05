@@ -34,3 +34,8 @@
   src: url(/public/fonts/Alexandria-Regular.ttf);
   font-weight: normal;
 }
+@media (max-width: 560px) {
+  .todo-card{
+    display: grid;
+  }
+}

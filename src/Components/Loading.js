@@ -9,13 +9,13 @@ export default function Loading({ setLoading }) {
   useEffect(() => {
     const timer = setInterval(() => {
       setProgress((prevProgress) =>
-        prevProgress >= 100 ? 100 : prevProgress + 4
+        prevProgress >= 100 ? 100 : prevProgress + 10
       );
     }, 100);
 
     setTimeout(() => {
       setLoading(false); 
-    }, 2800); 
+    }, 1300); 
 
     return () => {
       clearInterval(timer);

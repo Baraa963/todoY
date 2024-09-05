@@ -18,7 +18,7 @@ export default function Todo({ todo, dispatch }) {
 
   function CompletedClick() {
     dispatch({
-      type: "TodoCompleteToggle",
+      type: "CompletedTodos",
       payload: { id: todo.id },
     });
     const message = todo.isCompleted ? "لم يتم إنجاز هذه المهمة" : "تم إنجاز هذه المهمة";
@@ -52,12 +52,13 @@ export default function Todo({ todo, dispatch }) {
         />
       )}
       <Card
+      style={{height:"16vh"}}
         className="todo-card"
         sx={{
           minWidth: 275,
           background: "#283593",
           color: "white",
-          marginTop: "1rem",
+          margin: "1rem",
         }}
       >
         <CardContent>
@@ -73,11 +74,11 @@ export default function Todo({ todo, dispatch }) {
               </Typography>
               <Typography variant="h6">{todo.details}</Typography>
             </Grid>
-            <Grid
+            <Grid 
               item
               xs={4}
               display="flex"
-              justifyContent="space-around"
+              justifyContent="space-between"
               alignItems="center"
             >
               <IconButton

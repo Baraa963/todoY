@@ -1,4 +1,4 @@
-const TodoReducer = (state, action) => {
+const TodoReducer = (todos, action) => {
   switch (action.type) {
     case "InitializeTodos":
       return action.payload;
@@ -10,10 +10,10 @@ const TodoReducer = (state, action) => {
         isCompleted: false,
         createdDate: new Date().toISOString(),
       };
-      localStorage.setItem("todos", JSON.stringify([...state, newTodo]));
-      return [...state, newTodo];
-    case "TodoCompleteToggle":
-      const updatedTodos = state.map((todo) =>
+      localStorage.setItem("todos", JSON.stringify([...todos, newTodo]));
+      return [...todos, newTodo];
+    case "CompletedTodos":
+      const updatedTodos = todos.map((todo) =>
         todo.id === action.payload.id
           ? { ...todo, isCompleted: !todo.isCompleted }
           : todo
@@ -21,11 +21,11 @@ const TodoReducer = (state, action) => {
       localStorage.setItem("todos", JSON.stringify(updatedTodos));
       return updatedTodos;
     case "TodoDelete":
-      const filteredTodos = state.filter((todo) => todo.id !== action.payload.id);
+      const filteredTodos = todos.filter((todo) => todo.id !== action.payload.id);
       localStorage.setItem("todos", JSON.stringify(filteredTodos));
       return filteredTodos;
     case "TodoEdit":
-      const editedTodos = state.map((todo) =>
+      const editedTodos = todos.map((todo) =>
         todo.id === action.payload.id
           ? { ...todo, title: action.payload.title, details: action.payload.details }
           : todo
@@ -33,7 +33,7 @@ const TodoReducer = (state, action) => {
       localStorage.setItem("todos", JSON.stringify(editedTodos));
       return editedTodos;
     default:
-      return state;
+      return todos;
   }
 };
 

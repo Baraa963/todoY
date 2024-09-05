@@ -37,7 +37,7 @@ function App() {
           ) : (
             <>
               <SnackBar />
-              <TodoList todos={todos} dispatch={dispatch} />
+              <TodoList todos={todos} dispatch={dispatch}/>
             </>
           )}
         </ToastProvider>
