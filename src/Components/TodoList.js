@@ -1,7 +1,6 @@
 import * as React from "react";
-import { useState, useContext, useMemo } from "react";
+import { useState, useReducer, useMemo } from "react";
 import Button from "@mui/material/Button";
-import { TodosContext } from "../Contexts/TodosContext";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
@@ -12,35 +11,32 @@ import Divider from "@mui/material/Divider";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import Todo from "./Todo";
-import { v4 as uuidv4 } from "uuid";
+import TodoReducer from "../Redures/TodosReducer"
 import { useToast } from "../Contexts/ToastContext";
 
 export default function TodoList() {
-  const { todos, setTodos } = useContext(TodosContext);
+  // Initialize useReducer
+  const [todos, dispatch] = useReducer(TodoReducer, []);
   const [view, setView] = useState("all");
   const [titleTodo, setTitleTodo] = useState("");
   const [detailsTodo, setDetailsTodo] = useState("");
   const { showToast } = useToast();
 
+  // Handle adding a new todo
   function handleAddTodo() {
-    const newTodo = {
-      id: uuidv4(),
-      title: titleTodo,
-      details: detailsTodo,
-      isCompleted: false,
-      createdDate: new Date(),
-    };
+    dispatch({
+      type: "TodoAdd",
+      payload: { newTodo: titleTodo },
+    });
     setTitleTodo("");
     setDetailsTodo("");
-    const updatedTodos = [...todos, newTodo];
-    setTodos(updatedTodos);
-    localStorage.setItem("todos", JSON.stringify(updatedTodos));
-    showToast(" تمت إضافة مهمة جديدة بنجاح ","sucsses");
+    showToast("تمت إضافة مهمة جديدة بنجاح", "sucsses");
   }
+
+  // Filtering todos based on the view (all, done, not_done)
   const filteredTodos = useMemo(() => {
     return todos
       .filter((t) => {
-        console.log("call");
         if (view === "done") return t.isCompleted;
         if (view === "not_done") return !t.isCompleted;
         return true;
@@ -50,9 +46,10 @@ export default function TodoList() {
 
   const todoList = filteredTodos.map((t) => <Todo key={t.id} todo={t} />);
 
+  // Initialize todos from localStorage
   React.useEffect(() => {
     const storageTodos = JSON.parse(localStorage.getItem("todos")) ?? [];
-    setTodos(storageTodos);
+    dispatch({ type: "InitializeTodos", payload: storageTodos });
   }, []);
 
   return (
