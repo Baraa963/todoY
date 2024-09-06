@@ -1,23 +1,13 @@
-import * as React from "react";
-import { useState, useMemo } from "react";
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import Grid from "@mui/material/Grid";
-import Container from "@mui/material/Container";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import Typography from "@mui/material/Typography";
-import Divider from "@mui/material/Divider";
-import ToggleButton from "@mui/material/ToggleButton";
-import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
-import Todo from "./Todo";
-import { useToast } from "../Contexts/ToastContext";
+import {useState,useEffect,useMemo,Button,TextField,Grid,Container,Card,CardContent,
+  Typography,Divider,ToggleButton,ToggleButtonGroup,Todo,useToast,useTodos,
+} from "../Imports/Imports"; 
 
-export default function TodoList({ todos, dispatch }) {
+export default function TodoList() {
   const [view, setView] = useState("all");
   const [titleTodo, setTitleTodo] = useState("");
   const [detailsTodo, setDetailsTodo] = useState("");
   const { showToast } = useToast();
+  const { todos,dispatch } = useTodos();
 
   function handleAddTodo() {
     console.log("handleAddTodo called");
@@ -47,10 +37,9 @@ export default function TodoList({ todos, dispatch }) {
     <Todo key={t.id} todo={t} dispatch={dispatch} />
   ));
 
-  React.useEffect(() => {
-    const storageTodos = JSON.parse(localStorage.getItem("todos")) ?? [];
-    dispatch({ type: "InitializeTodos", payload: storageTodos });
-  }, [dispatch]);
+  useEffect(() => {
+    dispatch({ type: "InitializeTodos" });
+  }, []);
 
   return (
     <Container maxWidth="sm">
@@ -66,13 +55,13 @@ export default function TodoList({ todos, dispatch }) {
           <ToggleButtonGroup
             value={view}
             exclusive
-            color="secondary"
+            color="primary"
             onChange={(e) => setView(e.target.value)}
             style={{
               display: "flex",
               justifyContent: "center",
               direction: "ltr",
-              marginTop: "2rem",
+              margin: "1.8rem 0 0rem 0",
             }}
           >
             <ToggleButton value="not_done">الغير منجز</ToggleButton>
@@ -83,13 +72,13 @@ export default function TodoList({ todos, dispatch }) {
             style={{
               maxHeight: "240px",
               overflowY: "auto",
-            
+              margin:"1rem 0"
             }}
           >
             {todoList.length > 0 ? (
               todoList
             ) : (
-              <Typography variant="h6" sx={{ textAlign: "center" }}>
+              <Typography variant="h6" sx={{ textAlign: "center", margin:"1rem 0", color:"#de0000" }}>
                 لايوجد مهام
               </Typography>
             )}
@@ -97,7 +86,7 @@ export default function TodoList({ todos, dispatch }) {
           <Grid
             container
             spacing={2}
-            sx={{ width: "100%",  marginRight: "0.48rem" }}
+            sx={{ width: "100%", marginRight: "0.48rem" }}
           >
             <Grid item xs={6} sx={{ direction: "rtl" }}>
               <TextField
@@ -122,7 +111,7 @@ export default function TodoList({ todos, dispatch }) {
                 variant="contained"
                 sx={{ width: "110%", height: "130%" }}
                 onClick={handleAddTodo}
-                disabled={titleTodo.length === 0 || detailsTodo.length === 0}
+                disabled={titleTodo.length === 0}
               >
                 إضافة مهمة
               </Button>

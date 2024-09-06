@@ -1,10 +1,4 @@
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import { useToast } from "../Contexts/ToastContext";
+import {Button,Typography,useToast,Dialog,DialogTitle,DialogContent,DialogActions} from "../Imports/Imports"; 
 
 export default function DeleteDialog({ todo, openDelete, setOpenDelete, dispatch }) {
   const handleClose = () => setOpenDelete(false);

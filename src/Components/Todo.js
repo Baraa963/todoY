@@ -1,18 +1,10 @@
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
-import CheckIcon from "@mui/icons-material/Check";
-import IconButton from "@mui/material/IconButton";
-import DeleteIcon from "@mui/icons-material/Delete";
-import ModeEditIcon from "@mui/icons-material/ModeEdit";
-import { useState } from "react";
-import DeleteDialog from "./DeleteDialog";
-import EditDialog from "./EditDialog";
-import { useToast } from "../Contexts/ToastContext";
+import {React,useState,Grid,Card,CardContent,
+  Typography,useToast,useTodos,ModeEditIcon,DeleteIcon,IconButton,CheckIcon,EditDialog,DeleteDialog
+} from "../Imports/Imports";
 
-export default function Todo({ todo, dispatch }) {
+export default function Todo({ todo}) {
   const { showToast } = useToast();
+  const { todos,dispatch } = useTodos();
   const [openEdit, setOpenEdit] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
 
@@ -70,9 +62,9 @@ export default function Todo({ todo, dispatch }) {
                   textDecoration: todo.isCompleted ? "line-through" : "none",
                 }}
               >
-                {todo.title}
+                {todo.details}
               </Typography>
-              <Typography variant="h6">{todo.details}</Typography>
+              <Typography variant="h6">{todo.title}</Typography>
             </Grid>
             <Grid 
               item

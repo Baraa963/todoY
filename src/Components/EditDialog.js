@@ -1,11 +1,6 @@
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import { useToast } from "../Contexts/ToastContext";
-import { useState } from "react";
+import {Button,Dialog,DialogTitle,DialogContent,DialogActions,useToast,useState,TextField} 
+from "../Imports/Imports"; 
+
 
 export default function EditDialog({ todo, openEdit, setOpenEdit, dispatch }) {
   const [title, setTitle] = useState(todo.title);
@@ -36,8 +31,8 @@ export default function EditDialog({ todo, openEdit, setOpenEdit, dispatch }) {
           type="text"
           fullWidth
           variant="standard"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          value={details}
+          onChange={(e) => setDetails(e.target.value)}
         />
         <TextField
           margin="dense"
@@ -46,8 +41,8 @@ export default function EditDialog({ todo, openEdit, setOpenEdit, dispatch }) {
           type="text"
           fullWidth
           variant="standard"
-          value={details}
-          onChange={(e) => setDetails(e.target.value)}
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
         />
       </DialogContent>
       <DialogActions>

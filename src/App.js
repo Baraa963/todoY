@@ -1,11 +1,6 @@
-import "./App.css";
-import { useReducer, useState } from "react";
-import TodoList from "./Components/TodoList";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import SnackBar from "./Components/SnackBar";
-import { ToastProvider } from "./Contexts/ToastContext";
-import Loading from "./Components/Loading";
-import TodoReducer from "./Redures/TodosReducer";
+import "./App.css" ;
+import {useState,createTheme,ThemeProvider,TodosProvider,ToastProvider,Loading,SnackBar,TodoList,
+} from "./Imports/Imports"; 
 
 const theme = createTheme({
   typography: {
@@ -25,23 +20,24 @@ const theme = createTheme({
 });
 
 function App() {
-  const [todos, dispatch] = useReducer(TodoReducer, []);
   const [loading, setLoading] = useState(true);
 
   return (
     <ThemeProvider theme={theme}>
-      <div className="App">
+      <TodosProvider>
         <ToastProvider>
-          {loading ? (
-            <Loading setLoading={setLoading} />
-          ) : (
-            <>
-              <SnackBar />
-              <TodoList todos={todos} dispatch={dispatch}/>
-            </>
-          )}
+          <div className="App">
+            {loading ? (
+              <Loading setLoading={setLoading} />
+            ) : (
+              <>
+                <SnackBar />
+                <TodoList />
+              </>
+            )}
+          </div>
         </ToastProvider>
-      </div>
+      </TodosProvider>
     </ThemeProvider>
   );
 }

@@ -1,7 +1,5 @@
-import CircularProgress from "@mui/material/CircularProgress";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import { useEffect, useState } from "react";
+import {Typography,useState,useEffect,Box,CircularProgress} from "../Imports/Imports";
+
 
 export default function Loading({ setLoading }) {
   const [progress, setProgress] = useState(0);

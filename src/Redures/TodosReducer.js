@@ -1,7 +1,8 @@
 const TodoReducer = (todos, action) => {
   switch (action.type) {
     case "InitializeTodos":
-      return action.payload;
+      const storageTodos = JSON.parse(localStorage.getItem("todos")) ?? [];
+      return storageTodos;
     case "TodoAdd":
       const newTodo = {
         id: Date.now(),
