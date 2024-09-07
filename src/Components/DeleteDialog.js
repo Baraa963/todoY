@@ -1,9 +1,18 @@
-import {Button,Typography,useToast,Dialog,DialogTitle,DialogContent,DialogActions} from "../Imports/Imports"; 
+import {
+  Button,
+  Typography,
+  useToast,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  useDispatch,
+} from "../Imports/Imports";
 
-export default function DeleteDialog({ todo, openDelete, setOpenDelete, dispatch }) {
+export default function DeleteDialog({ todo, openDelete, setOpenDelete }) {
   const handleClose = () => setOpenDelete(false);
   const { showToast } = useToast();
-
+  const dispatch  = useDispatch();
   const handleDelete = () => {
     dispatch({
       type: "TodoDelete",
@@ -11,7 +20,6 @@ export default function DeleteDialog({ todo, openDelete, setOpenDelete, dispatch
     });
     handleClose();
     showToast(" تم حذف المهمة بنجاح ", "error");
-
   };
 
   return (

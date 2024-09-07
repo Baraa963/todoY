@@ -1,13 +1,30 @@
-import {useState,useEffect,useMemo,Button,TextField,Grid,Container,Card,CardContent,
-  Typography,Divider,ToggleButton,ToggleButtonGroup,Todo,useToast,useTodos,
-} from "../Imports/Imports"; 
+import {
+  useState,
+  useEffect,
+  useMemo,
+  Button,
+  TextField,
+  Grid,
+  Container,
+  Card,
+  CardContent,
+  Typography,
+  Divider,
+  ToggleButton,
+  ToggleButtonGroup,
+  Todo,
+  useToast,
+  useTodos,
+  useDispatch,
+} from "../Imports/Imports";
 
 export default function TodoList() {
   const [view, setView] = useState("all");
   const [titleTodo, setTitleTodo] = useState("");
   const [detailsTodo, setDetailsTodo] = useState("");
   const { showToast } = useToast();
-  const { todos,dispatch } = useTodos();
+  const { todos } = useTodos();
+  const { dispatch } = useDispatch();
 
   function handleAddTodo() {
     console.log("handleAddTodo called");
@@ -72,13 +89,16 @@ export default function TodoList() {
             style={{
               maxHeight: "240px",
               overflowY: "auto",
-              margin:"1rem 0"
+              margin: "1rem 0",
             }}
           >
             {todoList.length > 0 ? (
               todoList
             ) : (
-              <Typography variant="h6" sx={{ textAlign: "center", margin:"1rem 0", color:"#de0000" }}>
+              <Typography
+                variant="h6"
+                sx={{ textAlign: "center", margin: "1rem 0", color: "#de0000" }}
+              >
                 لايوجد مهام
               </Typography>
             )}

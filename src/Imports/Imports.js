@@ -10,6 +10,7 @@ import DeleteDialog from "../Components/DeleteDialog";
 import EditDialog from "../Components/EditDialog";
 import { useToast } from "../Contexts/ToastContext";
 import { useTodos } from "../Contexts/TodosContext";
+import { useDispatch } from "../Contexts/TodosContext";
 import {useState, useMemo,useEffect,useContext,useReducer } from "react";
 
 
@@ -50,6 +51,7 @@ export {
     useReducer,
     useToast,
     useTodos,
+    useDispatch,
     Button,
     TextField,
     Grid,

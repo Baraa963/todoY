@@ -1,14 +1,22 @@
-import {Button,Dialog,DialogTitle,DialogContent,DialogActions,useToast,useState,TextField} 
-from "../Imports/Imports"; 
+import {
+  Button,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  useToast,
+  useState,
+  TextField,
+  useDispatch,
+} from "../Imports/Imports";
 
-
-export default function EditDialog({ todo, openEdit, setOpenEdit, dispatch }) {
+export default function EditDialog({ todo, openEdit, setOpenEdit }) {
   const [title, setTitle] = useState(todo.title);
   const [details, setDetails] = useState(todo.details);
   const { showToast } = useToast();
 
   const handleClose = () => setOpenEdit(false);
-
+  const dispatch  = useDispatch();
   const handleSave = () => {
     dispatch({
       type: "TodoEdit",
@@ -16,7 +24,6 @@ export default function EditDialog({ todo, openEdit, setOpenEdit, dispatch }) {
     });
     handleClose();
     showToast(" تم تعديل المهمة بنجاح ", "warning");
-
   };
 
   return (

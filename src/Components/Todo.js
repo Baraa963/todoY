@@ -1,10 +1,23 @@
-import {React,useState,Grid,Card,CardContent,
-  Typography,useToast,useTodos,ModeEditIcon,DeleteIcon,IconButton,CheckIcon,EditDialog,DeleteDialog
+import {
+  React,
+  useState,
+  Grid,
+  Card,
+  CardContent,
+  Typography,
+  useToast,
+  useDispatch,
+  ModeEditIcon,
+  DeleteIcon,
+  IconButton,
+  CheckIcon,
+  EditDialog,
+  DeleteDialog,
 } from "../Imports/Imports";
 
-export default function Todo({ todo}) {
+export default function Todo({ todo }) {
   const { showToast } = useToast();
-  const { todos,dispatch } = useTodos();
+  const dispatch  = useDispatch();
   const [openEdit, setOpenEdit] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
 
@@ -13,7 +26,9 @@ export default function Todo({ todo}) {
       type: "CompletedTodos",
       payload: { id: todo.id },
     });
-    const message = todo.isCompleted ? "لم يتم إنجاز هذه المهمة" : "تم إنجاز هذه المهمة";
+    const message = todo.isCompleted
+      ? "لم يتم إنجاز هذه المهمة"
+      : "تم إنجاز هذه المهمة";
     showToast(message, todo.isCompleted ? "warning" : "success");
   }
 
@@ -44,7 +59,7 @@ export default function Todo({ todo}) {
         />
       )}
       <Card
-      style={{height:"16vh"}}
+        style={{ height: "16vh" }}
         className="todo-card"
         sx={{
           minWidth: 275,
@@ -66,7 +81,7 @@ export default function Todo({ todo}) {
               </Typography>
               <Typography variant="h6">{todo.title}</Typography>
             </Grid>
-            <Grid 
+            <Grid
               item
               xs={4}
               display="flex"
