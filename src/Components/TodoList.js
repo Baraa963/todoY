@@ -23,8 +23,8 @@ export default function TodoList() {
   const [titleTodo, setTitleTodo] = useState("");
   const [detailsTodo, setDetailsTodo] = useState("");
   const { showToast } = useToast();
-  const { todos } = useTodos();
-  const { dispatch } = useDispatch();
+  const  todos  = useTodos();
+  const  dispatch  = useDispatch();
 
   function handleAddTodo() {
     console.log("handleAddTodo called");

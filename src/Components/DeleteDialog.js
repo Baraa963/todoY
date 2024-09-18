@@ -12,7 +12,7 @@ import {
 export default function DeleteDialog({ todo, openDelete, setOpenDelete }) {
   const handleClose = () => setOpenDelete(false);
   const { showToast } = useToast();
-  const dispatch  = useDispatch();
+  const dispatch = useDispatch(); // useDispatch ile dispatch fonksiyonunu alın
   const handleDelete = () => {
     dispatch({
       type: "TodoDelete",
